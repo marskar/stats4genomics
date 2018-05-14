@@ -1,0 +1,72 @@
+# testing.SexPred.R
+
+# qrsh -l mem_free=10G,h_vmem=10G 
+
+# to run 
+# Rscript testing.SexPred.R > testing.SexPred_log.txt 2>&1
+
+library(affy)
+#source("https://bioconductor.org/biocLite.R"); biocLite("massiR")
+library(massiR)
+
+## CEl files:
+CEL <- list.files('/users/cvalenci/maria/DATA',full.names=TRUE)
+# Affymetrix Human Genome U133 Plus 2.0 Array
+
+# no pheno data
+data <- read.affybatch(filenames=CEL,compress=TRUE)
+# checking `data`
+annotation(data)
+# normalize and correct for background 
+eset <- rma(data)
+
+## massiR probe list
+# this test is using the affy: Affymetrix Human Genome U133 Plus 2.0 Array
+
+# load probles
+data(y.probes)
+# extract the correct chip
+affyprobe <- data.frame(y.probes["affy_hg_u133_plus_2"])
+
+# extract y probes from eset 
+
+y.eset <- massi_y(eset, affyprobe)
+
+# Expression variation plot
+pdf('test.Plot1.pdf')
+massi_y_plot(y.eset)
+dev.off()
+
+# selecting only probles with CV on the top 25%
+
+topprobes <- massi_select(eset, affyprobe, threshold=4)
+# how many probes?
+nrow(topprobes) #[1] 24
+# look at first 5
+head(topprobes)[,1:5]
+
+## predict sex
+
+results <- massi_cluster(topprobes)
+
+s.results <- data.frame(results[[2]])
+
+head(s.results)
+
+# compare this with pheno data 
+
+# phenotype data frame
+pheno <- read.table("/users/cvalenci/maria/Analysis/final.pheno.Arthritis.txt",header=T)
+levels(pheno$Sex) <- c('female','male')
+# same # samples in both
+
+## checking if sex was correctly predicted
+nrow(merge(pheno,s.results, by.x=c('id','Sex'), by.y=c('ID','sex')) )
+#[1] 139
+
+
+## aditional plots: heatmap, barplot and PCs
+
+pdf('plot2.pdf')
+massi_cluster_plot(topprobes, results)
+dev.off()
