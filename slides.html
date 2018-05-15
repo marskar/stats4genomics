@@ -371,11 +371,46 @@ Kruthika Iyer<br />Cristian Valencia<br />Martin Skarzynski
   </p>
   <p class="date">2018-05-15</p>
 </div>
-<div id="context" class="title-slide slide section level1"><h1>Context</h1></div>
-<div id="goals" class="title-slide slide section level1"><h1>Goals</h1></div>
-<div id="data-processing" class="title-slide slide section level1"><h1>Data Processing</h1></div>
-<div id="results-summary" class="title-slide slide section level1"><h1>Results Summary</h1></div>
-<div id="conclusions" class="title-slide slide section level1"><h1>Conclusions</h1></div>
+<div id="context" class="slide section level1">
+<h1>Context</h1>
+</div>
+<div id="packages" class="slide section level1">
+<h1>Packages</h1>
+<p>Processing</p>
+<ul>
+<li><code>beadarray</code> R package
+<ul>
+<li>QC analyses and bead-type summarization (average bead signal for each type after outlier removal)</li>
+</ul></li>
+<li><code>limma</code> R package - normal-exponential convolution model analysis to estimate non-negative signal,
+<ul>
+<li>quantile normalization using all probes (gene and control, detected and not detected) and samples,</li>
+<li>addition of a recommended (small) offset,</li>
+<li>log2 transformation and elimination of control probe data from the normalized expression matrix.</li>
+</ul></li>
+<li><code>lumi</code> package
+<ul>
+<li>Illumina HumanMethylation450 BeadChip technology employs a two-channel system and uses both Infinium I and II assays; normalization was performed.</li>
+</ul></li>
+</ul>
+<p>Association</p>
+<ul>
+<li><code>Stats</code> package</li>
+<li><code>MASS</code> package</li>
+</ul>
+</div>
+<div id="goals" class="slide section level1">
+<h1>Goals</h1>
+</div>
+<div id="data-processing" class="slide section level1">
+<h1>Data Processing</h1>
+</div>
+<div id="results-summary" class="slide section level1">
+<h1>Results Summary</h1>
+</div>
+<div id="conclusions" class="slide section level1">
+<h1>Conclusions</h1>
+</div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->
   <script>

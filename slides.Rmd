@@ -22,6 +22,24 @@ library(knitr)
 
 # Context
 
+# Packages
+
+Processing
+
+- `beadarray` R package
+    - QC analyses and bead-type summarization (average bead signal for each type after outlier removal)
+- `limma` R package - normal-exponential convolution model analysis to estimate non-negative signal,
+    - quantile normalization using all probes (gene and control, detected and not detected) and samples,
+    - addition of a recommended (small) offset,
+    - log2 transformation and elimination of control probe data from the normalized expression matrix.
+- `lumi` package
+    - Illumina HumanMethylation450 BeadChip technology employs a two-channel system and uses both Infinium I and II assays; normalization was performed.
+
+Association
+
+- `Stats` package
+- `MASS` package
+
 # Goals
 
 # Data Processing
