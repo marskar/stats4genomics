@@ -1,0 +1,31 @@
+---
+title: Age-related variations in gene expression in human monocytes and T cells
+author:
+- Kruthika Iyer
+- Cristian Valencia
+- Martin Skarzynski
+date: "`r Sys.Date()`"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE,
+                      include = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r libs}
+library(readr)
+library(here)
+library(plotly)
+library(knitr)
+```
+
+# Context
+
+# Goals
+
+# Data Processing
+
+# Results Summary
+
+# Conclusions
