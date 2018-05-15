@@ -62,14 +62,15 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, cache=TRUE)
 ```{r load_libs}
 #Load the Bioconductor libraries
 library(GEOquery)
-library(Biobase)
-library(limma)
+#library(Biobase)
+#library(limma)
 #library(affy)
 ```
 
 ```{r load_data}
 #Load the dataset using the getGEO() Command
-gset <- getGEO("GSE46268", GSEMatrix =TRUE)
+gset <- getGEO("GSE56580", GSEMatrix =TRUE, AnnotGPL=TRUE)
+#gset <- getGEO("GSE46268", GSEMatrix =TRUE)
 ```
 
 ```{r inspect_data1}
@@ -82,7 +83,9 @@ names(gset)
 ```{r unpack_data}
 #Unpack data
 idx <- length(gset) # 1
+idx
 gset <- gset[[idx]]
+gset
 ```
 
 ```{r inspect_data2}
