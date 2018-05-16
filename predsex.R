@@ -169,6 +169,7 @@ datatable(siggenes.table$genes.up)  # Check how table with the results look like
 # model 1: age as continuos:
 dmat1 <- model.matrix(~pheno$Age_years)
 colnames(dmat1) <- c('Intercept', 'Age')
+dmat1
 
 # contrast matrix to set comparisons:
 # cmat <- makeContrasts(levels=colnames(dmat),Age_yearsvsCTRL=(Age_years - control))
@@ -180,9 +181,17 @@ fit.ls <- lmFit(test.norm.filt,dmat1,method="ls")
 
 # moderation of standard erros using empirical Bayes
 eb.ls <- eBayes(fit.ls)
-
+names(eb.ls)
+class(eb.ls)
 ## plot p values model1
 
 pdf('plot4.pvalueMod1.pdf')
-hist(eb.ls$p.value[,1], main='')
+hist(eb.ls$p.value[,2], xlab = "p-value", main = "")
 dev.off()
+
+p <- eb.ls$p.value[,2]
+plot(eb.ls$coefficients[,2], -log2(p), pch = 20, cex = 0.3, xlab = "Log fold change")
+abline(v = c(-0.01, 0.01), lwd = 1, col = "darkorange")
+abline(h = 5, lwd = 1, col = "darkorange")
+
+
