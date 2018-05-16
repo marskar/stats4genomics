@@ -104,3 +104,16 @@ temp <- merge(pheno,temp, by.x='geo_accession',by.y='ID')
 
 pheno <- temp
 head(pheno)
+
+# fix variables
+colnames(pheno)[2] <- 'Age_years'
+#pheno$Age_years <- pheno$characteristics_ch1.2
+pheno$Age_years <- gsub('.*:', '', pheno$Age_years)
+pheno$Age_years <- as.numeric(as.character(pheno$Age_years))
+
+summary(pheno$Age_years)
+# plot Age 
+
+pdf('plot3.pdf')
+hist(pheno$Age_years)
+dev.off()
