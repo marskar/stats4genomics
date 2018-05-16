@@ -6,12 +6,33 @@
 library(Biobase)
 library(GEOquery)
 library(limma)
+#library(ggplot2)
+library(tibble)
+library(dplyr)
+source("https://bioconductor.org/biocLite.R")
+biocLite("massiR")
 
 # load series and platform data from GEO
 
 gset <- getGEO("GSE56580", GSEMatrix =TRUE, AnnotGPL=TRUE)
+
 if (length(gset) > 1) idx <- grep("GPL10558", attr(gset, "names")) else idx <- 1
 gset <- gset[[idx]]
+
+pheno <- Biobase::pData(gset)
+edata <- Biobase::exprs(gset)
+
+dim(gset)
+slotNames(gset)
+dim(phenoData(gset))
+dim(pheno)
+dim(edata)
+
+
+head(pheno)
+head(edata)
+enorm <- normalizeQuantiles(edata)
+
 
 # make proper column names to match toptable 
 fvarLabels(gset) <- make.names(fvarLabels(gset))
