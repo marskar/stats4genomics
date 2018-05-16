@@ -152,7 +152,7 @@ datatable(delta.table)  # Look at the whole range
 
 delta.table[delta.table[, "median FDR"] < 0.1, ][1, ]  # Check delta corresponding to median FDR ~0.1
 
-delta <- 1.5
+delta <- 0.49
 samr.plot(samr.obj, delta)
 
 hist(samr.pvalues.from.perms(samr.obj$tt, samr.obj$ttstar))
