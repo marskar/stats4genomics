@@ -201,3 +201,14 @@ redfc <- fc[p < 0.05 & abs(fc) > 0.01]
 points(redfc,-log10(redp),pch=20,col='red' )
 abline(v = c(-0.01, 0.01), lwd = 1, col = "darkorange")
 abline(h = 5, lwd = 1, col = "darkorange")
+
+b.pvalues <- p.adjust(p, method = "bonferroni")
+summary(b.pvalues)
+summary(p)
+
+fdr.pvalues <- p.adjust(p, method = "fdr")
+summary(fdr.pvalues)
+
+table <- topTable(eb.ls, coef = 2, adjust.method = "none", p.value = 0.05, number = 100)
+head(table)
+
