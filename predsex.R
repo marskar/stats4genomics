@@ -191,7 +191,13 @@ dev.off()
 
 p <- eb.ls$p.value[,2]
 plot(eb.ls$coefficients[,2], -log2(p), pch = 20, cex = 0.3, xlab = "Log fold change")
+
+fc <- eb.ls$coefficients[,2]
+par(mfrow = c(1,2))
+
+plot(fc, -log10(p),pch=20,cex=0.4,main="Volcano Plot for \ndifferentially expressed probesets \nby Age", xlab="log Fold Change",ylab = "-log10(P-value)")
+redp <- p[p < 0.05 & abs(fc) > 0.01]
+redfc <- fc[p < 0.05 & abs(fc) > 0.01]
+points(redfc,-log10(redp),pch=20,col='red' )
 abline(v = c(-0.01, 0.01), lwd = 1, col = "darkorange")
 abline(h = 5, lwd = 1, col = "darkorange")
-
-
