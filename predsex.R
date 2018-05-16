@@ -212,3 +212,23 @@ summary(fdr.pvalues)
 table <- topTable(eb.ls, coef = 2, adjust.method = "none", p.value = 0.05, number = 100)
 head(table)
 
+probeNames <- table$ID
+head(probeNames)
+
+x <- illuminaHumanv4SYMBOL
+mapped_probes <- mappedkeys(x)
+xx <- as.list(x[mapped_probes])
+annotation<-data.frame(names(xx), unlist(xx))
+names(annotation)[1] <- "ID"
+names(annotation)[2] <- "gene"
+library('dplyr')
+class(table$ID) <- "numeric"
+class(annotation$ID)
+annotated <- left_join(table, annotation, by="ID")
+head(annotated)
+
+info <- select(hgu95av2.db, probeNames, c("SYMBOL"), "PROBEID")
+# Other names from columns(hgu95av2.db) can be added to the c("SYMBOL") above:
+# info <- select(hgu95av2.db, probeNames, c("SYMBOL", "ENTREZID"), "PROBEID")
+head(info)
+
