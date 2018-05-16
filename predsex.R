@@ -2,11 +2,14 @@ library(GEOquery)
 #source("http://bioconductor.org/biocLite.R"); biocLite("lumi")
 #library(lumi)
 library(limma)
+#source("http://bioconductor.org/biocLite.R"); biocLite("samr")
+library(samr)
 #source("https://bioconductor.org/biocLite.R"); biocLite("illuminaHumanv4.db")
 library(illuminaHumanv4.db)
 #source("https://bioconductor.org/biocLite.R"); biocLite("massiR")
 library(massiR)
-library(dplyr)
+#install.packages("DT")
+library(DT)
 
 # download the T cell files: GSE56580
 files <- getGEOSuppFiles('GSE56580')
@@ -116,4 +119,70 @@ summary(pheno$Age_years)
 
 pdf('plot3.pdf')
 hist(pheno$Age_years)
+dev.off()
+head(gset)
+pheno2 <- Biobase::pData(gset)
+edata <- Biobase::exprs(gset)
+
+dim(gset)
+slotNames(gset)
+dim(phenoData(gset))
+head(pheno)
+head(pheno2)
+head(edata)
+
+
+head(pheno)
+head(edata)
+enorm <- normalizeQuantiles(edata)
+
+genenames <- rownames(edata)
+
+data <- list(x = enorm, y = pheno$Age_years, geneid = genenames, genenames = genenames, logged2 = TRUE)
+dim(enorm)
+head(data)
+length(pheno$Age_years)
+### Create samr object
+samr.obj <- samr(data, resp.type = "Quantitative", nperms=100)
+### Look at structure of the samr object
+str(samr.obj)
+
+delta.table <- samr.compute.delta.table(samr.obj, min.foldchange = 1.5)  # Compute thresholds for different deltas
+datatable(delta.table)  # Look at the whole range
+
+delta.table[delta.table[, "median FDR"] < 0.1, ][1, ]  # Check delta corresponding to median FDR ~0.1
+
+delta <- 1.5
+samr.plot(samr.obj, delta)
+
+hist(samr.pvalues.from.perms(samr.obj$tt, samr.obj$ttstar))
+head(samr.obj$tt)
+siggenes.table <- samr.compute.siggenes.table(samr.obj, delta, data, delta.table, min.foldchange = 1.5)  # Summarize significant genes
+names(siggenes.table)  # What data we have in the summary list
+
+nrow(siggenes.table$genes.up)  # How many upregulated genes
+
+nrow(siggenes.table$genes.lo)  # How many downregulated
+
+datatable(siggenes.table$genes.up)  # Check how table with the results look like
+
+# model 1: age as continuos:
+dmat1 <- model.matrix(~pheno$Age_years)
+colnames(dmat1) <- c('Intercept', 'Age')
+
+# contrast matrix to set comparisons:
+# cmat <- makeContrasts(levels=colnames(dmat),Age_yearsvsCTRL=(Age_years - control))
+
+# Fit the model 1
+fit.ls <- lmFit(test.norm.filt,dmat1,method="ls")
+
+#fit.ls <- contrasts.fit(fit.ls,cmat)
+
+# moderation of standard erros using empirical Bayes
+eb.ls <- eBayes(fit.ls)
+
+## plot p values model1
+
+pdf('plot4.pvalueMod1.pdf')
+hist(eb.ls$p.value[,1], main='')
 dev.off()
