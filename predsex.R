@@ -131,6 +131,7 @@ head(pheno)
 head(pheno2)
 head(edata)
 
+summary(pheno$Age_years)
 
 head(pheno)
 head(edata)
@@ -189,11 +190,10 @@ pdf('plot4.pvalueMod1.pdf')
 hist(eb.ls$p.value[,2], xlab = "p-value", main = "")
 dev.off()
 
-p <- eb.ls$p.value[,2]
 plot(eb.ls$coefficients[,2], -log2(p), pch = 20, cex = 0.3, xlab = "Log fold change")
 
+p <- eb.ls$p.value[,2]
 fc <- eb.ls$coefficients[,2]
-par(mfrow = c(1,2))
 
 plot(fc, -log10(p),pch=20,cex=0.4,main="Volcano Plot for \ndifferentially expressed probesets \nby Age", xlab="log Fold Change",ylab = "-log10(P-value)")
 redp <- p[p < 0.05 & abs(fc) > 0.01]
