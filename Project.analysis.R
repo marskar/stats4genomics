@@ -137,7 +137,7 @@ colnames(dmat1) <- c('Intercept', 'Age')
 # contrast matrix to set comparisons:
 # cmat <- makeContrasts(levels=colnames(dmat),Age_yearsvsCTRL=(Age_years - control))
 
-# Fit the model 1
+# Fit the model 1 : Looking at Age 
 fit.ls <- lmFit(test.norm.filt,dmat1,method="ls")
 
 #fit.ls <- contrasts.fit(fit.ls,cmat)
@@ -148,7 +148,7 @@ eb.ls <- eBayes(fit.ls)
 ## plot p values model1
 
 pdf('/users/cvalenci/GSE56580/plot4.pvalueMod1.pdf')
-hist(eb.ls$p.value[,2], main='')
+hist(eb.ls$p.value[,2], main='Model1: Age')
 dev.off()
 
 ##
@@ -156,16 +156,24 @@ tg <- topTable(eb.ls,coef=2,number=Inf,adjust="BH",genelist = rownames(eb.ls))
 
 nrow(subset(tg,adj.P.Val < 0.05 & abs(logFC)>1 ))
 
+# Volcano plot
+pdf('/users/cvalenci/GSE56580/Vplot.Mod1.pdf')
+with(tg, plot(logFC, -log10(adj.P.Val),pch=20,cex=0.4,main="Model 1: Age" ) )
+with(subset(tg,adj.P.Val < 0.05 ), points(logFC,-log10(adj.P.Val),pch=20,col='red' ) )
+dev.off()
+
 ## model 2: Age+sex
 
-# model 1: age as continuos:
+# model 2: age as continuos:
+
 dmat2 <- model.matrix(~pheno$Age_years+pheno$sex)
 colnames(dmat2) <- c('Intercept', 'Age', 'sex')
+
 
 # contrast matrix to set comparisons:
 # cmat <- makeContrasts(levels=colnames(dmat),Age_yearsvsCTRL=(Age_years - control))
 
-# Fit the model 1
+# Fit the model 2
 fit.ls <- lmFit(test.norm.filt,dmat2,method="ls")
 
 #fit.ls <- contrasts.fit(fit.ls,cmat)
@@ -175,8 +183,8 @@ eb.ls <- eBayes(fit.ls)
 
 ## plot p values model1
 
-pdf('/users/cvalenci/GSE56580/plot4.pvalueMod2.pdf')
-hist(eb.ls$p.value[,2], main='')
+pdf('/users/cvalenci/GSE56580/plot.pvalueMod2.pdf')
+hist(eb.ls$p.value[,2], main='Model 2: Age + Sex')
 dev.off()
 
 ##
@@ -184,19 +192,26 @@ tg <- topTable(eb.ls,coef=2,number=Inf,adjust="BH",genelist = rownames(eb.ls))
 
 nrow(subset(tg,adj.P.Val < 0.05 & abs(logFC)>1 ))
 
+# Volcano plot
+pdf('/users/cvalenci/GSE56580/Vplot.Mod2.pdf')
+with(tg, plot(logFC, -log10(adj.P.Val),pch=20,cex=0.4,main="Model 2: Age + sex" ) )
+with(subset(tg,adj.P.Val < 0.05 ), points(logFC,-log10(adj.P.Val),pch=20,col='red' ) )
+dev.off()
 
-## categorize by the median
+
+## Model 3: Age continuous + sex 
+# categorize by the median
 pheno$Age_cat <- ifelse(pheno$Age_years >= 58,1,0)
 
 # model 1: age as continuos:
-dmat1 <- model.matrix(~pheno$Age_cat)
-colnames(dmat1) <- c('Intercept', 'Age_cat')
+dmat3 <- model.matrix(~pheno$Age_cat+pheno$sex)
+colnames(dmat3) <- c('Intercept', 'Age_cat','sex')
 
 # contrast matrix to set comparisons:
 # cmat <- makeContrasts(levels=colnames(dmat),Age_yearsvsCTRL=(Age_years - control))
 
 # Fit the model 3
-fit.ls <- lmFit(test.norm.filt,dmat1,method="ls")
+fit.ls <- lmFit(test.norm.filt,dmat3,method="ls")
 
 #fit.ls <- contrasts.fit(fit.ls,cmat)
 
@@ -205,7 +220,7 @@ eb.ls <- eBayes(fit.ls)
 
 ## plot p values model1
 
-pdf('/users/cvalenci/GSE56580/plot4.pvalueMod1.pdf')
+pdf('/users/cvalenci/GSE56580/plot.pvalueMod3.pdf')
 hist(eb.ls$p.value[,2], main='')
 dev.off()
 
@@ -214,6 +229,15 @@ tg <- topTable(eb.ls,coef=2,number=Inf,adjust="BH",genelist = rownames(eb.ls))
 
 nrow(subset(tg,adj.P.Val < 0.05 & abs(logFC)>1 ))
 
+# Volcano plot
+pdf('/users/cvalenci/GSE56580/Vplot.Mod3.pdf')
+with(tg, plot(logFC, -log10(adj.P.Val),pch=20,cex=0.4,main="Model 3: Median Age + Sex" ) )
+with(subset(tg,adj.P.Val < 0.05 ), points(logFC,-log10(adj.P.Val),pch=20,col='red' ) )
+dev.off()
+
+
+#################################################################################################
+# this part below was not run
 ##
 # model 4: age_cat + sex. Now I care about sex coefficient
 # sex will be 1= male vs 0 = female
@@ -270,7 +294,5 @@ with(subset(tg,adj.P.Val < 0.05 & abs(logFC)>1 ), points(logFC,-log10(adj.P.Val)
 ## save results :
 save(test.norm.filt,s.results,meta,pheno, file='/users/cvalenci/GSE56580/Tcell.data.Rdata')
 
-
-
-
+df <- df[unique(df$chi_id), ]
 
