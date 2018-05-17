@@ -49,21 +49,21 @@ Processing
     - to create a sex variable (a composite variable of race, gender and study site was included in the original dataset)
 
 # Results
-![Probe Qualities](Plot1.pdf)
+![Microarray probe qualities](Plot1.pdf)
 
-![Age distribution](Plot3.pdf)
+![Age distribution of study participants](Plot3.pdf)
 
-![Volc1](./Vplot.Mod1.pdf)
+![Volcano plot of Model 1 (Continuous Age) applied to T cells](./Vplot.Mod1.pdf)
 
-![Volc2](./Vplot.Mod2.pdf)
+![Volcano plot of Model 2 (Continuous Age + Sex) applied to T cells](./Vplot.Mod2.pdf)
 
-![Volc3](./Vplot.Mod3.pdf)
+![Volcano plot of Model 3 (Categorical Age + Sex) applied to T cells](./Vplot.Mod3.pdf)
 
-![Volc1M](./Vplot.Mod1_Mono_ageContinuous.pdf)
+![Volcano plot of Model 1 (Continuous Age) applied to monocytes](./Vplot.Mod1_Mono_ageContinuous.pdf)
 
-![Volc2M](./Vplot.Mod2_Mono_ageContinuous_sex.pdf)
+![Volcano plot of Model 2 (Continuous Age + Sex) applied to monocytes](./Vplot.Mod2_Mono_ageContinuous_sex.pdf)
 
-![Volc3M](./Vplot.Mod3_Mono_ageCategorical_sex.pdf)
+![Volcano plot of Model 3 (Categorical Age + Sex) applied to monocytes](./Vplot.Mod3_Mono_ageCategorical_sex.pdf)
 
 # Conclusions
 
