@@ -2,13 +2,13 @@
 title: Age-related gene expression variations \break in human monocytes and T cells
 author:
 - Martin Skarzynski
-- Kruthika Iyer
-- Cristian Valencia
 institution: 'Johns Hopkins University'
 division: 'School of Public Health'
 subtitle: '140.688.01 – Statistics for Genomics'
 date: "`r Sys.Date()`"
-output: pdf_document
+output:
+    pdf_document:
+        fig_caption: true
 ---
 
 ```{r setup, include=FALSE}
@@ -49,7 +49,10 @@ Processing
     - to create a sex variable (a composite variable of race, gender and study site was included in the original dataset)
 
 # Results
-![Microarray probe qualities](Plot1.pdf)
+
+```{r Fig1, fig.cap = "Microarray probe qualities"}
+knitr::include_graphics("Plot1.pdf")
+```
 
 ![Age distribution of study participants](Plot3.pdf)
 
