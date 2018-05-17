@@ -1,0 +1,60 @@
+---
+title: "Age-related gene expression variations \break in human monocytes and T cells "
+author: "C. Valencia"
+subtitle: '140.688.01 - Statistics for Genomics'
+date: "'r Sys.Data()'"
+output:
+    pdf_document:
+        fig_caption: true
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, include = TRUE, warning = FALSE, message = FALSE)
+library(knitr)
+library(readr)
+```
+
+
+## Introduction
+
+The Multi-Ethnic Study of Atheroesclerosis (MESA) in an ongoing study of ~6000 men and woman from six communitites in the United States. The MESA Epigenomics and Transcriptomics Study is an ancilary study
+that aims to investigate potential difference in gene expression and methylation across age. For the purpose of the present analysis we will focus only on the gene expression data. A total of 214 individuals were randomly selected for T cell isolation. Also ~1200 random individuals were also selected for monocyte isolation. 
+
+We aim to study genes differentially express by age accounting by sex using the two cell types however, we notice two main problems:
+
+- Variable sex does not appear in the phenotype data
+- There was not clear way to match ID between the monocyte dataset and Tcell dataset
+
+To solve this problem we decide to predict sex using gene expresison data and then use this predicted sex in the differential expression analysis. Also, we deciced to conduct a two factor mathching approach to select the same individuals from both datasets 
+
+## Procesing 
+
+The expression data was Illumina HumanHT-12 V4.0 expression beadchip and it was processed using the limma package.
+
+We removed bad quality probes (12375), and then predict sex using the probes from the Y chromosome with a high variance (92). There were 97 predicted female and 117 predicted males. 
+
+We then proceeded with the differential expression analysis by cell type. We started by looking at gene differentially express across age span (model 1) then we will include sex (model 2) and finally we will caterorize age by the median (58 years) and add sex into the model (model 3)
+
+![Volcano plot of model 1 (continuous Age) applies to Tcells](./Vplot.mod1.pdf)
+![Volcano plot of model 2 (continuous Age) applies to Tcells](./Vplot.mod2.pdf)
+![Volcano plot of model 3 (continuous Age) applies to Tcells](./Vplot.mod3.pdf)
+
+## Monocytes
+
+Finally, we also look at genes differentially express across age span in monocytes
+
+![Volcano plot of model 1 (continuous Age) applies to monocytes](./Vplot.Mod1_Mono_ageContinuous.pdf)
+![Volcano plot of model 2 (continuous Age) applies to monocytes](./Vplot.Mod2_Mono_ageContinuous_sex.pdf)
+![Volcano plot of model 3 (continuous Age) applies to monocytes](./Vplot.Mod3_Mono_ageCategorical_sex.pdf)
+
+## Conclusion 
+
+- We were able to predict sex using expression data. 
+- There were differentially express genes by age and sex in monocytes however this difference were    minor or not observed in CD4 T cells.
+
+
+
+
+
+
+
+
