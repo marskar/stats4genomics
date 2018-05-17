@@ -5,7 +5,7 @@ author:
 - Cristian Valencia
 - Martin Skarzynski
 date: "`r Sys.Date()`"
-output: slidy_presentation
+output: beamer_presentation
 ---
 
 ```{r setup, include=FALSE}
@@ -13,17 +13,14 @@ knitr::opts_chunk$set(echo = FALSE, cache = TRUE,
                       include = TRUE, warning = FALSE, message = FALSE)
 ```
 
-```{r libs}
-library(readr)
-library(here)
-library(plotly)
-library(knitr)
-```
 
 # Context and Study Design
 
 - The MESA Epigenomics and Transcriptomics Study has been launched to investigate potential gene expression regulatory methylation sites in humans by examining the association between CpG methylation and gene expression in purified human monocytes and T cells from a large study population (community-dwelling participants in the Multi-Ethnic Study of Atherosclerosis (MESA)).
 - The MESA Epigenomics and Transcriptomics Study was funded by a National Heart, Lung and Blood Institute grant (R01HL101250) through the NIH Roadmap Epigenomics Program in 2009.
+
+# Context and Study Design
+
 - Data includes transcriptomic and methylomic data from CD4+ samples, collected from 214 individuals.
 - Peripheral T cells were isolated from blood (Exam 5) with anti-CD4 coated magnetic beads, and the Illumina HumanHT-12 v4 Expression BeadChip and the Illumina HumanMethylation450 BeadChip were used to provide genome-wide coverage of mRNA expression and DNA methylation, respectively.
 
@@ -51,16 +48,42 @@ Processing
     - log2 transformation and elimination of control probe data from the normalized expression matrix.
 - `lumi` package
     - Illumina HumanMethylation450 BeadChip technology employs a two-channel system and uses both Infinium I and II assays; normalization was performed.
+- `MassiR` package
+    - to create a sex variable (a composite variable of race, gender and study site was included in the original dataset)
 
-Association
+# Results
+![Probe Qualities](Plot1.pdf)
 
-- `Stats` package
-- `MASS` package
+# Results
 
-# Goals
+![Age distribution](Plot3.pdf)
 
-# Data Processing
+# Results
 
-# Results Summary
+![Volc1](./Vplot.Mod1.pdf)
+
+# Results
+
+![Volc2](./Vplot.Mod2.pdf)
+
+# Results
+
+![Volc3](./Vplot.Mod3.pdf)
+
+# Results
+
+![Volc1M](./Vplot.Mod1_Mono_ageContinuous.pdf)
+
+# Results
+
+![Volc2M](./Vplot.Mod2_Mono_ageContinuous_sex.pdf)
+
+# Results
+
+![Volc3M](./Vplot.Mod3_Mono_ageCategorical_sex.pdf)
 
 # Conclusions
+
+- We were able to predict sex using the `MassiR` package.
+- There is difference in gene expression by age and sex in monocytes, but not in T cells.
+- After turning age into a binary variable by the median, fewer differentially expressed genes are observed.
