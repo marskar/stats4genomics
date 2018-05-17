@@ -94,6 +94,7 @@ class(gset)
 length(gset)
 names(gset)
 slotNames(gset)
+dim(pData(phenoData(gset)))
 ```
 
 ```{r dim}
